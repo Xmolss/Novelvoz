@@ -16,7 +16,16 @@ jobs:
 
       - name: Organizar arquivos
         run: |
+          W=.github/workflows
           mkdir -p app/src/main/java/com/novelvoz
+          for f in settings.gradle.kts build.gradle.kts gradle.properties; do
+            if [ -f "$W/$f" ]; then mv "$W/$f" "$f"; fi
+          done
+          if [ -f "$W/app-build.gradle.kts" ]; then mv "$W/app-build.gradle.kts" app/build.gradle.kts; fi
+          if [ -f "$W/AndroidManifest.xml" ]; then mv "$W/AndroidManifest.xml" app/src/main/AndroidManifest.xml; fi
+          for f in MainActivity.kt ReaderService.kt; do
+            if [ -f "$W/$f" ]; then mv "$W/$f" app/src/main/java/com/novelvoz/; fi
+          done
           if [ -f app-build.gradle.kts ]; then mv app-build.gradle.kts app/build.gradle.kts; fi
           if [ -f AndroidManifest.xml ]; then mv AndroidManifest.xml app/src/main/AndroidManifest.xml; fi
           if [ -f MainActivity.kt ]; then mv MainActivity.kt app/src/main/java/com/novelvoz/; fi
